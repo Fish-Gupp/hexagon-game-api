@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "postinstall": "tsc",
+    "tsc": "tsc",
+    "build": "npm run tsc",
+    "postinstall": "npm run tsc",
     "prestart": "npm run build",
     "start": "node dist/index.js"
   },
