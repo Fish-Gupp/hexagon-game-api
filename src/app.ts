@@ -12,6 +12,7 @@ const pingTimeoutMs = 10000;
 const app = express();
 const sessionParser = session({
   resave: false,
+  saveUninitialized: true,
   secret: 'hexagon is the bestagon',
 });
 app.use(sessionParser);
