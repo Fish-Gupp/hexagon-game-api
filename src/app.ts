@@ -13,6 +13,7 @@ const app = express();
 const sessionParser = session({
   cookie: {
     httpOnly: false,
+    maxAge: 2147483647,
     path: '/',
   },
   resave: true,
