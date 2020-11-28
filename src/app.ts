@@ -11,11 +11,25 @@ const pingTimeoutMs = 10000;
 
 const app = express();
 const sessionParser = session({
-  resave: false,
+  cookie: {
+    httpOnly: false,
+    path: '/',
+  },
+  resave: true,
   saveUninitialized: true,
   secret: 'hexagon is the bestagon',
 });
 app.use(sessionParser);
+
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', `${req.get('origin')}`);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 
 app.use('/', indexRouter);
 
@@ -120,6 +134,7 @@ wss.on('connection', (ws: WebSocket, req: any) => {
 
 server.on('upgrade', (req, socket, head) => {
   sessionParser(req, {} as any, () => {
+    console.warn(req);
     wss.handleUpgrade(req, socket, head, (socket) => {
       wss.emit('connection', socket, req);
     });
